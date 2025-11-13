@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D' Journey - Welcome</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="disclaimer-page">
+
+        <!-- 🔹 Background Video -->
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="img/VID_20251109_163939.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="disclaimer-container">
+        <div class="disclaimer-content">
+            <div class="welcome-badge">WELCOME!</div>
+            <h1 class="disclaimer-title">D' Journey</h1>
+            <div class="disclaimer-text">
+                <p>This website is a personal academic project by <strong>Djhonna Mae Arrieta</strong>, a first-year student at <strong>FEU Roosevelt Marikina</strong>.</p>
+                <p>All content is for educational and presentation purposes only.</p>
+            </div>
+            <button class="btn-proceed" onclick="proceedToSite()">
+                <span>Enter Site</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="feur-branding">
+                <p>FEU Roosevelt Marikina</p>
+                <p class="academic-year">Academic Year 2025 -</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function proceedToSite() {
+            document.querySelector('.disclaimer-container').classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'loading.html';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

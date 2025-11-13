@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D' Journey - Loading</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="loading-page">
+    <div class="loading-container">
+        <div class="loading-content">
+            <h1 class="loading-text">BE BRAVE</h1>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p class="loading-subtitle">Preparing your journey...</p>
+        </div>
+    </div>
+
+    <script>
+        const progressBar = document.querySelector('.loading-progress');
+        const loadingText = document.querySelector('.loading-text');
+        let progress = 0;
+
+        const letters = loadingText.textContent.split('');
+        loadingText.innerHTML = letters.map((letter, index) => 
+            letter === ' ' ? ' ' : `<span style="animation-delay: ${index * 0.1}s">${letter}</span>`
+        ).join('');
+
+        const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.querySelector('.loading-container').classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location.href = 'home.html';
+                    }, 500);
+                }, 500);
+            }
+            progressBar.style.width = progress + '%';
+        }, 200);
+    </script>
+</body>
+</html>
