@@ -1,108 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sinag Tamaraw - D' Journey</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sinag Tamaraw - D' Journey</title>
+  <!-- ✅ Favicon setup -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon_io/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon_io/android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <link rel="shortcut icon" href="favicon_io/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* === Play button overlay for videos === */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      display: inline-block;
+    }
+    .feature-video {
+      width: 100%;
+      height: 250px;
+      border-radius: 15px;
+      object-fit: cover;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+    }
+    .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .play-overlay::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 22px solid var(--primary-green, #4a752c);
+      border-top: 13px solid transparent;
+      border-bottom: 13px solid transparent;
+      margin-left: 4px;
+    }
+    .video-wrapper:hover .play-overlay {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: rgba(255, 255, 255, 1);
+    }
+
+    /* === Shared fullscreen overlay base === */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .overlay .close-btn {
+      position: absolute;
+      top: 30px;
+      right: 50px;
+      font-size: 3rem;
+      color: white;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .overlay .close-btn:hover {
+      color: var(--primary-yellow, #e7c657);
+    }
+
+    /* === Video in overlay === */
+    #overlayVideo {
+      max-width: 90%;
+      max-height: 85vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* === Image overlay === */
+    #overlayImage {
+      max-width: 90%;
+      max-height: 85vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="home.html" class="logo">
-                <img src="img/pngegg.png" alt="D' Journey Logo" class="logo-img">
-                D' Journey
-            </a>
-            <button class="mobile-menu-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu">
-                <li><a href="home.html" class="active">Home</a></li>
-                <li><a href="sinag-sports.html">Sinag Sports</a></li>
-                <li><a href="sinag-tamaraw.html">Sinag Tamaraw</a></li>
-                <li><a href="contact.html">Contact Me</a></li>
-            </ul>
-        </div>
-    </nav>
+  <!-- ✅ Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="home.html" class="logo">
+        <img src="img/pngegg.png" alt="D' Journey Logo" class="logo-img" />
+        
+        D' Journey
+      </a>
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="sinag-sports.html">Sinag Sports</a></li>
+        <li><a href="sinag-tamaraw.html" class="active">Sinag Tamaraw</a></li>
+        <li><a href="contact.html">Contact Me</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <section class="page-header">
-        <div class="container">
-            <h1>Sinag Tamaraw</h1>
-            <p>FEU Roosevelt Marikina School Events & Activities</p>
-        </div>
-    </section>
+  <!-- ✅ Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Sinag Tamaraw</h1>
+      <p>FEU Roosevelt Marikina School Events & Activities</p>
+    </div>
+  </section>
 
-    <section class="content-section">
-        <div class="container">
-            <div class="content-grid">
-               <div class="content-video">
-                <video autoplay muted loop playsinline class="feature-video">
-                    <source src="img//SINAG SPORTS/poster.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                </div>
-                <div class="content-text">
-                    <h2>About Our Events</h2>
-                    <p>Sinag Tamaraw showcases the vibrant school events and activities at FEU Roosevelt Marikina. From academic celebrations to cultural festivals, community outreach to special occasions, these events bring our Tamaraw community together.</p>
-                    <p>Each event creates lasting memories, builds stronger bonds among students, and celebrates the unique spirit of our school. Browse through our gallery to relive these wonderful moments!</p>
-                </div>
-            </div>
+  <!-- ✅ Intro Section -->
+  <section class="content-section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="content-video">
+          <video autoplay muted loop playsinline class="feature-video">
+            <source src="img/sinagtams.mp4" type="video/mp4" />
+          </video>
         </div>
-    </section>
+        <div class="content-text">
+          <h2>About Our Events</h2>
+          <p>
+           The Sinag Tamaraw Concert is a celebration of music, talent, and community spirit among the Tamaraw family. This electrifying event brings together students, faculty, and local artists for an unforgettable night of performances that showcase the creativity and passion of the FEU community.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <section class="gallery-section">
-        <div class="container">
-            <h2 class="section-title">Event Gallery</h2>
-            <div class="container">
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <source" alt="Basketball" class="feature-image">
-                    <h3>Women's Basketball</h3>
-                    <p>Experience the energy and teamwork of our women’s basketball players as they showcase skill, strategy, and sportsmanship on the court.</p>
-                </div>
-                <div class="feature-item">
-                    <img src="img/SINAG TAMARAW/IMG_4376.HEIC.png" alt="Volleyball" class="feature-image">
-                    <h3>Men's Basketball</h3>
-                    <p>Watch the excitement unfold as our men’s basketball teams compete with passion, precision, and unstoppable drive to win.</p>
-                </div>
-                <div class="feature-item">
-                    <img src="img/SINAG TAMARAW/IMG_4462.HEIC.png" alt="Other Sports" class="feature-image">
-                    <h3>Women's Volleyball</h3>
-                    <p>A display of strength, coordination, and teamwork. Women’s volleyball players bring every match to life with powerful spikes and quick reflexes.</p>
-            </div>
+  <!-- ✅ Event Videos -->
+  <section class="gallery-section">
+    <div class="container">
+      <h2 class="section-title">Event Gallery</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="video-wrapper" data-video="img/SINAG_TAMS/Gracenote.mp4">
+            <video
+              class="feature-video"
+              muted
+              preload="metadata"
+              poster="img/SINAG_TAMS/ThumbnailGracenote.jpg"
+            ></video>
+            <div class="play-overlay"></div>
+          </div>
+          <h3>Gracenote</h3>
+          <p>
+            Gracenote lit up our FEU campus with their electrifying performance
+            — blending pop, rock, and heartfelt energy that had everyone singing
+            along and waving their hands in unison.
+          </p>
         </div>
-        </div>
-    </section>
 
-    <section class="gallery-section">
-        <div class="container">
-            <h2 class="section-title">Gallery</h2>
-            <div class="gallery-grid">
-                <img src="img/SINAG SPORTS/EVENT_1.jpg" alt="Event 1" class="gallery-item">
-                <img src="img/SINAG SPORTS/EVENT_2.jpg" alt="Event 2" class="gallery-item">
-                <img src="img/SINAG SPORTS/EVENT_3.jpeg" alt="Event 3" class="gallery-item">
-                <img src="img/SINAG SPORTS/EVENT_6.jpg" alt="Event 4" class="gallery-item">
-                <img src="img/SINAG SPORTS/EVENT_5.jpg" alt="Event 5" class="gallery-item">
-                <img src="img/SINAG SPORTS/EVENT_6 (2).jpg" alt="Event 6" class="gallery-item">
-            </div>
+        <div class="feature-item">
+          <div class="video-wrapper" data-video="./img/SINAG_TAMS/LolaAmore.mp4">
+            <video
+              class="feature-video"
+              muted
+              preload="metadata"
+              poster="img/SINAG_TAMS/ThumbnailLolaAmore.jpg"
+            ></video>
+            <div class="play-overlay"></div>
+          </div>
+          <h3>Lola Amour</h3>
+          <p>
+            Lola Amour brought good vibes and crowd-favorite hits to life,
+            turning the campus grounds into a mini concert scene filled with
+            laughter, music, and Tamaraw pride.
+          </p>
         </div>
-    </section>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 D' Journey - FEU Roosevelt Marikina. Created by Djhonna Mae Arrieta.</p>
-            <div class="footer-links">
-                <a href="home.html">Home</a>
-                <a href="sinag-sports.html">Sinag Sports</a>
-                <a href="sinag-tamaraw.html">Sinag Tamaraw</a>
-                <a href="contact.html">Contact</a>
-            </div>
+        <div class="feature-item">
+          <div class="video-wrapper" data-video="img/SINAG_TAMS/HeyJune.mp4">
+            <video
+              class="feature-video"
+              muted
+              preload="metadata"
+              poster="img/SINAG_TAMS/ThumbnailHeyJune.jpg"
+            ></video>
+            <div class="play-overlay"></div>
+          </div>
+          <h3>Hey June!</h3>
+          <p>
+            Hey June! delivered an unforgettable live performance during their
+            FEU campus stop — their soulful vocals and indie sound created a
+            chill, feel-good atmosphere that everyone enjoyed.
+          </p>
         </div>
-    </footer>
+      </div>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <!-- ✅ Image Gallery -->
+  <section class="gallery-section">
+    <div class="container">
+      <h2 class="section-title">Gallery</h2>
+      <div class="gallery-grid">
+        <img src="img/SINAG_TAMS/pic3.jpg" alt="Pic 2" class="gallery-item" />
+        <img src="img/SINAG_TAMS/pic2.jpg" alt="Pic 1" class="gallery-item" />
+        <img src="img/SINAG_TAMS/pic4.jpg" alt="Pic 3" class="gallery-item" />
+        <img src="img/SINAG_TAMS/pic6.jpg" alt="Pic 5" class="gallery-item" />
+        <img src="img/SINAG_TAMS/pic5.jpg" alt="Pic 4" class="gallery-item" />
+        <img src="img/SINAG_TAMS/pic7.jpg" alt="Pic 6" class="gallery-item" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ Video Overlay -->
+  <div class="overlay" id="videoOverlay">
+    <span class="close-btn" id="closeVideo">&times;</span>
+    <video id="overlayVideo" controls></video>
+  </div>
+
+  <!-- ✅ Image Overlay -->
+  <div class="overlay" id="imageOverlay">
+    <span class="close-btn" id="closeImage">&times;</span>
+    <img id="overlayImage" alt="Fullscreen view" />
+  </div>
+
+  <!-- ✅ Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>
+        &copy; 2025 D' Journey - FEU Roosevelt Marikina. Created by Djhonna Mae
+        Arrieta.
+      </p>
+      <div class="footer-links">
+        <a href="home.html">Home</a>
+        <a href="sinag-sports.html">Sinag Sports</a>
+        <a href="sinag-tamaraw.html">Sinag Tamaraw</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ✅ Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const videoOverlay = document.getElementById("videoOverlay");
+      const overlayVideo = document.getElementById("overlayVideo");
+      const closeVideo = document.getElementById("closeVideo");
+
+      const imageOverlay = document.getElementById("imageOverlay");
+      const overlayImage = document.getElementById("overlayImage");
+      const closeImage = document.getElementById("closeImage");
+
+      // --- Video overlay ---
+      document.querySelectorAll(".video-wrapper").forEach((wrapper) => {
+        wrapper.addEventListener("click", () => {
+          const videoSrc = wrapper.getAttribute("data-video");
+          overlayVideo.src = videoSrc;
+          videoOverlay.style.display = "flex";
+          overlayVideo.play();
+          document.body.style.overflow = "hidden";
+        });
+      });
+
+      closeVideo.addEventListener("click", () => {
+        videoOverlay.style.display = "none";
+        overlayVideo.pause();
+        overlayVideo.src = "";
+        document.body.style.overflow = "";
+      });
+
+      // --- Image overlay ---
+      document.querySelectorAll(".gallery-item").forEach((img) => {
+        img.addEventListener("click", () => {
+          overlayImage.src = img.src;
+          imageOverlay.style.display = "flex";
+          document.body.style.overflow = "hidden";
+        });
+      });
+
+      closeImage.addEventListener("click", () => {
+        imageOverlay.style.display = "none";
+        overlayImage.src = "";
+        document.body.style.overflow = "";
+      });
+
+      // Close on ESC key for both overlays
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          if (videoOverlay.style.display === "flex") closeVideo.click();
+          if (imageOverlay.style.display === "flex") closeImage.click();
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- ✅ Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="home.html" class="logo">
@@ -20,14 +21,15 @@
                 <span></span>
             </button>
             <ul class="nav-menu">
-                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="home.html">Home</a></li>
                 <li><a href="sinag-sports.html">Sinag Sports</a></li>
                 <li><a href="sinag-tamaraw.html">Sinag Tamaraw</a></li>
-                <li><a href="contact.html">Contact Me</a></li>
+                <li><a href="contact.html" class="active">Contact Me</a></li>
             </ul>
         </div>
     </nav>
 
+    <!-- ✅ Header Section -->
     <section class="page-header">
         <div class="container">
             <h1>Get In Touch</h1>
@@ -35,9 +37,11 @@
         </div>
     </section>
 
+    <!-- ✅ Contact Section -->
     <section class="contact-section">
         <div class="container">
             <div class="contact-grid">
+                <!-- === Contact Info Column === -->
                 <div class="contact-info">
                     <h2>Contact Information</h2>
                     <p>Thank you for visiting D' Journey! If you have any questions about this school project or would like to connect, feel free to reach out.</p>
@@ -74,9 +78,14 @@
                     </div>
                 </div>
 
+                <!-- === Contact Form Column === -->
                 <div class="contact-form-container">
                     <h2>Send Me a Message</h2>
-                    <form class="contact-form" id="contactForm">
+
+                    <!-- ✅ Formspree integration -->
+                    <form class="contact-form" id="contactForm" action="https://formspree.io/f/mdkykdnb" method="POST">
+                        <input type="hidden" name="_subject" value="New message from D' Journey Contact Form!">
+
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" name="name" required placeholder="Enter your full name">
@@ -105,6 +114,7 @@
         </div>
     </section>
 
+    <!-- ✅ Footer -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2025 D' Journey - FEU Roosevelt Marikina. Created by Djhonna Mae Arrieta.</p>
@@ -117,6 +127,42 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- ✅ Inline JS to handle form submission -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(contactForm);
+
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        formMessage.textContent = '✅ Message sent successfully! Thank you for reaching out.';
+                        formMessage.className = 'form-message success';
+                        formMessage.style.display = 'block';
+                        contactForm.reset();
+                    } else {
+                        formMessage.textContent = '❌ Something went wrong. Please try again later.';
+                        formMessage.className = 'form-message error';
+                        formMessage.style.display = 'block';
+                    }
+                } catch (error) {
+                    formMessage.textContent = '⚠️ Unable to send message. Please check your internet connection.';
+                    formMessage.className = 'form-message error';
+                    formMessage.style.display = 'block';
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>

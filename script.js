@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // Observe elements for animation
     document.querySelectorAll('.project-card, .feature-item, .stat-card, .objective-card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
@@ -100,6 +99,18 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScroll = currentScroll;
     });
 
+    // ✅ Active link highlight based on current page
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav-menu a');
+
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if (linkPage === currentPage) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        }
+    });
+
     // Smooth Scrolling for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -113,4 +124,136 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
+
+    // === AUTO INFINITE GALLERY CAROUSEL WITH FULLSCREEN VIEW ===
+    const imageFolder = "img/SINAG SPORTS/";
+    const imageFiles = [
+        "EVENT_1.jpg",
+        "EVENT_2.jpg",
+        "EVENT_3.jpeg",
+        "EVENT_4.jpg",
+        "EVENT_5.jpg",
+        "EVENT_6.jpg"
+    ];
+
+    const carouselTrack = document.getElementById("carouselTrack");
+
+    if (carouselTrack) {
+        // Duplicate images for infinite looping
+        const doubledImages = [...imageFiles, ...imageFiles];
+
+        doubledImages.forEach(file => {
+            const img = document.createElement("img");
+            img.src = imageFolder + file;
+            img.alt = file;
+            img.classList.add("carousel-img");
+            carouselTrack.appendChild(img);
+        });
+
+        let index = 0;
+        const visibleCount = 3;
+        const moveInterval = 3000;
+        let intervalId;
+
+        function startCarousel() {
+            intervalId = setInterval(() => {
+                index++;
+                carouselTrack.style.transition = "transform 1s ease-in-out";
+                carouselTrack.style.transform = `translateX(-${index * (100 / visibleCount)}%)`;
+
+                // Reset to start smoothly
+                if (index >= imageFiles.length) {
+                    setTimeout(() => {
+                        carouselTrack.style.transition = "none";
+                        index = 0;
+                        carouselTrack.style.transform = "translateX(0)";
+                    }, 1000);
+                }
+            }, moveInterval);
+        }
+
+        function stopCarousel() {
+            clearInterval(intervalId);
+        }
+
+        startCarousel();
+
+        // === Fullscreen Viewer ===
+        const fullscreenOverlay = document.createElement("div");
+        fullscreenOverlay.classList.add("fullscreen-overlay");
+        fullscreenOverlay.style.display = "none";
+        fullscreenOverlay.innerHTML = `
+            <span class="close-btn">&times;</span>
+            <img class="fullscreen-image" src="" alt="Full View">
+        `;
+        document.body.appendChild(fullscreenOverlay);
+
+        const fullscreenImg = fullscreenOverlay.querySelector(".fullscreen-image");
+        const closeBtn = fullscreenOverlay.querySelector(".close-btn");
+
+        // Open fullscreen on click
+        carouselTrack.querySelectorAll("img").forEach(img => {
+            img.addEventListener("click", () => {
+                stopCarousel();
+                fullscreenImg.src = img.src;
+                fullscreenOverlay.style.display = "flex";
+                document.body.style.overflow = "hidden";
+            });
+        });
+
+        // Close fullscreen
+        closeBtn.addEventListener("click", () => {
+            fullscreenOverlay.style.display = "none";
+            document.body.style.overflow = "";
+            startCarousel();
+        });
+
+        // Exit fullscreen on ESC key
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && fullscreenOverlay.style.display === "flex") {
+                closeBtn.click();
+            }
+        });
+
+            // === FULLSCREEN VIEW FOR FEATURED SPORTS IMAGES ===
+    const featureImages = document.querySelectorAll('.feature-image');
+
+    if (featureImages.length > 0) {
+        // Reuse existing fullscreen overlay if available
+        let fullscreenOverlay = document.querySelector('.fullscreen-overlay');
+
+        if (!fullscreenOverlay) {
+            fullscreenOverlay = document.createElement("div");
+            fullscreenOverlay.classList.add("fullscreen-overlay");
+            fullscreenOverlay.style.display = "none";
+            fullscreenOverlay.innerHTML = `
+                <span class="close-btn">&times;</span>
+                <img class="fullscreen-image" src="" alt="Full View">
+            `;
+            document.body.appendChild(fullscreenOverlay);
+        }
+
+        const fullscreenImg = fullscreenOverlay.querySelector(".fullscreen-image");
+        const closeBtn = fullscreenOverlay.querySelector(".close-btn");
+
+        featureImages.forEach(img => {
+            img.style.cursor = "pointer";
+            img.addEventListener("click", () => {
+                fullscreenImg.src = img.src;
+                fullscreenOverlay.style.display = "flex";
+                document.body.style.overflow = "hidden";
+            });
+        });
+
+        closeBtn.addEventListener("click", () => {
+            fullscreenOverlay.style.display = "none";
+            document.body.style.overflow = "";
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && fullscreenOverlay.style.display === "flex") {
+                closeBtn.click();
+            }
+        });
+    }
+}});
